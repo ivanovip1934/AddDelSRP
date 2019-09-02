@@ -42,12 +42,14 @@ namespace AddDelSRP
             }
             string reg_path = @"SOFTWARE\Policies\Microsoft\Windows\Safer\CodeIdentifiers\262144\Paths";
             //string reg_path6432 = @"SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\safer\codeidentifiers\262144\Paths";
-            //AddKeys(reg_path, regvalue);
+            AddKeys(reg_path, regvalue);
             //AddKeys(reg_path6432, regvalue);
 
-            DelKeys(reg_path, regvalue); 
+            //DelKeys(reg_path, regvalue); 
             //DelKeys(reg_path6432, regvalue);
 
+
+            Cmd("gpupdate /force");
 
                 //Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().Location);
                 Console.ReadKey();
@@ -109,6 +111,10 @@ namespace AddDelSRP
             }
         }
 
+        public static void Cmd(string line) {
+            Process.Start(new ProcessStartInfo { FileName = "cmd", Arguments = $"/c {line}" }).WaitForExit();
+        }
+
 
 
 
@@ -119,5 +125,6 @@ namespace AddDelSRP
                 return principal.IsInRole(WindowsBuiltInRole.Administrator);                    
             }
         }
+
     }
 }
