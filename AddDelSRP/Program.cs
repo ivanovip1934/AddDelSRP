@@ -38,7 +38,7 @@ namespace AddDelSRP
             };
 
             foreach (RegValue _regvalue in regvalue) {
-                Console.WriteLine(_regvalue.Description);
+               // Console.WriteLine(_regvalue.Description);
             }
             string reg_path = @"SOFTWARE\Policies\Microsoft\Windows\Safer\CodeIdentifiers\262144\Paths";
             //string reg_path6432 = @"SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\safer\codeidentifiers\262144\Paths";
@@ -61,13 +61,13 @@ namespace AddDelSRP
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(path, true)) {
                 Console.WriteLine();
                 Console.WriteLine("************************************************************");
-                Console.WriteLine("Key Path: " + key.Name);
+                //Console.WriteLine("Key Path: " + key.Name);
                 Console.WriteLine("************************************************************");
                 Console.WriteLine();
 
 
                 foreach (RegValue _regvalue in regvalue) {
-                    Console.WriteLine(_regvalue);
+                    //Console.WriteLine(_regvalue);
                     using (RegistryKey subkey = key.CreateSubKey(_regvalue.Path)) {
                         subkey.SetValue("Description", _regvalue.Description);
                         subkey.SetValue("ItemData", _regvalue.ItemData);
@@ -85,14 +85,19 @@ namespace AddDelSRP
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(path, true)) {
                 Console.WriteLine();
                 Console.WriteLine("************************************************************");
-                Console.WriteLine("Key Path: " + key.Name);
+                //Console.WriteLine("Key Path: " + key.Name);
                 Console.WriteLine("************************************************************");
                 Console.WriteLine();
 
 
                 foreach (RegValue _regvalue in regvalue) {
-                    Console.WriteLine(_regvalue);
-                    key.DeleteSubKey(_regvalue.Path);
+                    //Console.WriteLine(_regvalue);
+                    try {
+                        key.DeleteSubKey(_regvalue.Path);
+                    }
+                    catch (Exception ex) {
+                        Console.WriteLine(ex.Message);
+                    }
                 }
 
             }
