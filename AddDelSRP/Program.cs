@@ -68,12 +68,18 @@ namespace AddDelSRP
 
                 foreach (RegValue _regvalue in regvalue) {
                     //Console.WriteLine(_regvalue);
-                    using (RegistryKey subkey = key.CreateSubKey(_regvalue.Path)) {
-                        subkey.SetValue("Description", _regvalue.Description);
-                        subkey.SetValue("ItemData", _regvalue.ItemData);
-                        subkey.SetValue("LastModified", _regvalue.LastModified, RegistryValueKind.QWord);
-                        subkey.SetValue("SaferFlags", _regvalue.SaferFlags, RegistryValueKind.QWord);
+                    try {
+                        using (RegistryKey subkey = key.CreateSubKey(_regvalue.Path)) {
+                            subkey.SetValue("Description", _regvalue.Description);
+                            subkey.SetValue("ItemData", _regvalue.ItemData);
+                            subkey.SetValue("LastModified", _regvalue.LastModified, RegistryValueKind.QWord);
+                            subkey.SetValue("SaferFlags", _regvalue.SaferFlags, RegistryValueKind.QWord);
+                        }
                     }
+                    catch (Exception ex) {
+                        Console.WriteLine(ex.Message);
+                    }
+
                 }
                 
             }
