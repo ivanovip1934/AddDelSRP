@@ -41,9 +41,12 @@ namespace AddDelSRP
                 Console.WriteLine(_regvalue.Description);
             }
             string reg_path = @"SOFTWARE\Policies\Microsoft\Windows\Safer\CodeIdentifiers\262144\Paths";
-            string reg_path6432 = @"SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\safer\codeidentifiers\262144\Paths";
-            AddKeys(reg_path, regvalue);
-            AddKeys(reg_path6432, regvalue);
+            //string reg_path6432 = @"SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\safer\codeidentifiers\262144\Paths";
+            //AddKeys(reg_path, regvalue);
+            //AddKeys(reg_path6432, regvalue);
+
+            DelKeys(reg_path, regvalue); 
+            //DelKeys(reg_path6432, regvalue);
 
 
                 //Console.WriteLine(System.Reflection.Assembly.GetEntryAssembly().Location);
@@ -77,10 +80,29 @@ namespace AddDelSRP
         }
 
 
+        public static void DelKeys(string path, List<RegValue> regvalue) {
+            // int appcount = 0;
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(path, true)) {
+                Console.WriteLine();
+                Console.WriteLine("************************************************************");
+                Console.WriteLine("Key Path: " + key.Name);
+                Console.WriteLine("************************************************************");
+                Console.WriteLine();
+
+
+                foreach (RegValue _regvalue in regvalue) {
+                    Console.WriteLine(_regvalue);
+                    key.DeleteSubKey(_regvalue.Path);
+                }
+
+            }
+        }
 
 
 
-            public static bool IsAdministrator() {
+
+
+        public static bool IsAdministrator() {
             using (WindowsIdentity identity = WindowsIdentity.GetCurrent()) {
                 WindowsPrincipal principal = new WindowsPrincipal(identity);
                 return principal.IsInRole(WindowsBuiltInRole.Administrator);                    
